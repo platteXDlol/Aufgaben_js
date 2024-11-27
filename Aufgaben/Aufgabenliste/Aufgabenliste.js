@@ -1,7 +1,7 @@
 function abhaken(e) {
     var elem = e.target.parentElement;
     aufgabeAbhaken(elem);
-    e.preventDefault(); //allfälliges Navigieren (Standardverhalten) unterbinden
+    e.preventDefault();
 }
 
 function aufgabeAbhaken(aufgabe) {
@@ -28,23 +28,7 @@ function hinzufuegen(e) {
 function allesAbhaken() {
     var offene = document.getElementById("aufgaben").getElementsByClassName("offen");
 
-    //Folgene for-Schleife funktioniert wegen LIVE-UPDATE nicht!
-    //  --> das erste Element wird geändert, dadurch verschwindet es aus der nodeList (Variable "offene"),
-    //      das zweite Element ist somit neu das erste, die Schleife geht aber weiter zum neuen zweiten Element,
-    //      das ursprüngliche zweite Element wird so übersprungen, etc.
-    /*
-    for (var i = 0; i < offene.length; i++) {
-        offene[i].className = "erledigt";
-    }
-    */
-    //darum am Ende anfangen...
-    for (var i = offene.length - 1; i > -1; i--) {
-        offene[i].className = "erledigt";
-    }
-
-    //...oder mit while:
-    /*
     while (offene.length > 0) {
         offene[0].classList = "erledigt";
-    } */
+    }
 }
