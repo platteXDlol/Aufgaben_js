@@ -1,19 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="Aufgabenliste.css">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aufgabenliste</title>
+    <script src="Aufgabenliste.js"></script>
+    <style>
+        .offen { text-decoration: none; }
+        .erledigt { text-decoration: line-through; }
+    </style>
 </head>
 <body>
-
 <h1>Aufgabenliste</h1>
+<p>
+    Neue Aufgabe: <input type="text" id="neu">
+    <button id="hinzu">Hinzufügen</button>
+</p>
 <ul id="aufgaben">
     <li class="offen">Aufgabe 1 <a href="#">erledigt</a></li>
     <li class="offen">Aufgabe 2 <a href="#">erledigt</a></li>
     <li class="offen">Aufgabe 3 <a href="#">erledigt</a></li>
 </ul>
-
+<button id="alles">Alles erledigt!</button>
+<script>
+    var links = document.getElementsByTagName("a");
+    for (var i = 0;  i< links.length; i++) {
+        links[i].addEventListener("click", abhaken);
+    }
+    document.getElementById("hinzu").addEventListener("click", hinzufuegen);
+    document.getElementById("alles").addEventListener("click", allesAbhaken);
+</script>
 </body>
 </html>
