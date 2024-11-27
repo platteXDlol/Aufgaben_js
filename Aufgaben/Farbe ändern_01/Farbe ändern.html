@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <style>
+        label {
+            display: inline-block;
+            width: 150px;
+        }
+    </style>
+
+    <title>Farbe ändern</title>
+</head>
+<body>
+
+<h2>Ändere die Farben</h2>
+
+<div>
+<labe for="background">Background color</labe>
+<input id="background" type="color">
+</div>
+
+<div>
+<labe for="text">Text color</labe>
+<input id="text" type="color">
+</div>
+
+<script>
+    window.onload = function() {
+        document.getElementById("background").addEventListener("input", changeBgColor);
+        document.getElementById("text").addEventListener("input", changeTextColor);
+    }
+
+    function changeBgColor() {
+        document.body.style.backgroundColor = document.getElementById("background").value;
+    }
+
+    function changeTextColor() {
+        document.body.style.color = document.getElementById("text").value;
+    }
+
+</script>
+
+</body>
+</html>
