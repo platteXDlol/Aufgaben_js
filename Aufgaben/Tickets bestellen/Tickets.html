@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tickets-bestellen-kein-scam.ch</title>
+</head>
+<body>
+
+<title>Tickets bestellen</title>
+<script>
+    function validieren(e) {
+        e.preventDefault();
+        let email = document.getElementById("email").value;
+        let anz_tickets = document.getElementById("anz_tickets").value;
+
+        let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (!email.match(validRegex)) {
+            alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
+            return;
+        } else if (anz_tickets == 0) {
+            alert("Bitte wählen Sie die Anzahl Tickets aus.");
+            return;
+        } else {
+            document.forms[0].submit();
+        }
+    }
+</script>
+
+<form action="https://formlog.offline.ch/log">
+
+    <label for email>Deine E-Mail-Adresse:</label>
+    <input type="text" id="email" name="email">
+
+    <br>
+
+    <label for tickets>Anzahl Tickets:</label>
+    <select id="anz_tickets" name="anz_tickets">
+        <option value="" disabled selected>Bitte wählen</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+    </select>
+
+    <br>
+
+    <button type="submit">bestellen</button>
+</form>
+<script>
+    document.forms[0].addEventListener("submit", validieren);
+</script>
+
+
+</body>
+</html>

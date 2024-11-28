@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Formular validieren</title>
+    <script>
+        function validieren(e) {
+            var form = document.forms["fragebogen"];
+            // verhindern, dass Formular abgeschickt wird.
+            e.preventDefault();
+
+            let name = form.elements["fullname"];
+            let geschlecht = form.elements["gender"];
+            let html = form.elements["html"];
+            let css = form.elements["css"];
+            let js = form.elements["js"];
+
+            if (name.value.trim() === "") {
+                alert("Name fehlt.");
+                form.elements["fullname"].focus();
+                return;
+            }
+            let genderChecked = false;
+            for (let i = 0; i < geschlecht.length; i++) {
+                if (geschlecht[i].checked) {
+                    genderChecked = true;
+                    break;
+                }
+            }
+            if (!genderChecked) {
+                alert("Geschlecht fehlt.");
+                return;
+            }
+            if (!html.checked && !css.checked && !js.checked) {
+                alert("Teile uns bitte mit, wofür du dich interessierst.");
+                return;
+            }
+            // Formular abschicken.
+            form.submit();
+        }
+    </script>
+</head>
+<body>
+<h1>Formular</h1>
+<form name="fragebogen" action="skript.php" method="post">
+    <div>
+        Dein Name: <input type="text" name="fullname" />
+    </div>
+    <div>
+        Geschlecht:
+        <input type="radio" name="gender" value="m" /> männlich
+        <input type="radio" name="gender" value="w" /> weiblich
+    </div>
+    <div>
+        Wofür interessierst du dich?
+        <input type="checkbox" name="html" /> HTML
+        <input type="checkbox" name="css" /> CSS
+        <input type="checkbox" name="js"> JavaScript
+    </div>
+    <div>
+        <input type="submit" value="Absenden" />
+    </div>
+</form>
+<script>
+    document.forms["fragebogen"].addEventListener("submit", validieren);
+</script>
+</body>
+</html>
