@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <title>Abfahrtstafel</title>
+</head>
+<body>
+<div id="wrapper">
+    <h1>Abfahrtstafel</h1>
+    <div id="search-bar">
+        <input type="text" placeholder="Ort/Bahnhof" id="search-crit">
+        <button id ="submit">Verbindungen suchen → </button>
+    </div>
+    <section id="time-table" class="hidden">
+        <header>
+            <h2 id="station-name"></h2>
+            <h3 id="title">Abfahrt <span>Départ - Partenza - Departure</span></h3>
+        </header>
+        <main id="departures"></main>
+</div>
+</div>
+<script>
+    window.onload = function() {
+        document.getElementById("submit").addEventListener("click", getData);
+        document.getElementById("search-crit").addEventListener("keydown", function(e) {
+            if (e.code == "Enter" || e.code =="NumpadEnter") {
+                getData();
+                e.preventDefault();
+            }
+        });
+    }
+
+    async function getData() {
+        let url = "http://transport.opendata.ch/v1/stationboard?";
+        let station = document.getElementById("search-crit").value;
+        if (station.length === 0) {
+            return;
+        }
+
+        let response = await fetch(url + "station=" + station + "&limit=20", { "method": "GET" });
+        let data = await response.json();
+
+        displayData(data);
+    }
+
+    async function displayData(data) {
+        //console.log(data);
+        document.getElementById("time-table").classList.remove("hidden");
+        document.getElementById("station-name").innerText = data.station.name;
+
+        let list = "";
+        let year = -1;
+        let month = -1;
+        let day = -1;
+
+        for (let i = 0; i < data.stationboard.length; i++) {
+
+            let dt = new Date(data.stationboard[i].stop.departure);
+            if (  (year < dt.getFullYear()) ||
+                (year == dt.getFullYear() && month < dt.getMonth()) ||
+                ((year == dt.getFullYear() && month == dt.getMonth() && day < dt.getDate()))
+            ) {
+                // neuer Tag
+                list += '<tr>';
+                list += '<td class="new-day date-time">' + dt.toLocaleDateString() + '</td>';
+                list += '<td class="new-day operator"></td>';
+                list += '<td class="new-day to"></td>';
+                list += '<td class="new-day platform">Gleis</td>';
+                list += '</tr>'
+
+                year = dt.getFullYear();
+                month = dt.getMonth();
+                day = dt.getDate();
+            }
+
+            list += '<tr>';
+            list += '<td class="date-time">' + dt.getHours() + ":" + dt.getMinutes().toString().padStart(2, "0") + '</td>';
+            list += '<td class="operator">' +  data.stationboard[i].category + data.stationboard[i].number + '</td>';
+            list += '<td class="to">' +  data.stationboard[i].to + '</td>';
+            if (data.stationboard[i].stop.platform != null) {
+                list += '<td class="platform">' +  data.stationboard[i].stop.platform + '</td>';
+            } else {
+                list += '<td class="platform">-</td>';
+            }
+            list += '</tr>';
+        }
+
+        document.getElementById("departures").innerHTML = '<table>' + list + '</table>';
+    }
+</script>
+</body>
+</html>

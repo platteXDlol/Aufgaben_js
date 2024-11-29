@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billard</title>
+    <style>
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: blanchedalmond;
+        }
+
+    </style>
+</head>
+<body>
+<canvas id="leinwand"></canvas>
+<script>
+    let canvas;
+    let ctx;
+    let r = 50;
+    let x;
+    let y;
+    let speedX;
+    let speedY;
+    let interval;
+
+    window.onload = function() {
+        canvas = document.getElementById("leinwand");
+        ctx = canvas.getContext("2d");
+
+        newBall();
+    }
+
+    function newBall() {
+        if (interval != null)
+            clearInterval(interval);
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        x = getRandomInteger(r, canvas.width - r);
+        y = getRandomInteger(r, canvas.height - r);
+
+        speedX = 10;
+        speedY = 10
+
+        interval = setInterval(drawCircle, 50);
+    }
+
+    function drawCircle() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        ctx.beginPath();
+        ctx.fillStyle = "orange";
+        ctx.arc(x, y, r, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.closePath();
+
+        x += speedX;
+        y += speedY;
+
+        if (x + r > canvas.width || x - r < 0) {
+            speedX = -speedX;
+            console.log("reached x boundary");
+        }
+        if (y + r > canvas.height || y - r < 0) {
+            speedY = - speedY;
+            console.log("reached y boundary");
+        }
+    }
+
+
+    function getRandomInteger (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+</script>
+</body>
+</html>
