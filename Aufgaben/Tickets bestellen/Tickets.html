@@ -13,7 +13,7 @@
         let email = document.getElementById("email").value;
         let anz_tickets = document.getElementById("anz_tickets").value;
 
-        let validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        let validRegex = /^[a-zA-Z0-9_-](\.?[a-zA-Z0-9_-]+)*@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
         if (!email.match(validRegex)) {
             alert("Bitte geben Sie eine gültige E-Mail-Adresse ein.");
             return;
